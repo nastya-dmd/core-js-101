@@ -19,8 +19,8 @@
  *    'Tue, 26 Jan 2016 13:48:02 GMT' => Date()
  *    'Sun, 17 May 1998 03:00:00 GMT+01' => Date()
  */
-function parseDataFromRfc2822(/* value */) {
-  throw new Error('Not implemented');
+function parseDataFromRfc2822(value) {
+  return new Date(value);
 }
 
 /**
@@ -34,8 +34,8 @@ function parseDataFromRfc2822(/* value */) {
  *    '2016-01-19T16:07:37+00:00'    => Date()
  *    '2016-01-19T08:07:37Z' => Date()
  */
-function parseDataFromIso8601(/* value */) {
-  throw new Error('Not implemented');
+function parseDataFromIso8601(value) {
+  return Date.parse(value);
 }
 
 
@@ -53,8 +53,8 @@ function parseDataFromIso8601(/* value */) {
  *    Date(2012,1,1)    => true
  *    Date(2015,1,1)    => false
  */
-function isLeapYear(/* date */) {
-  throw new Error('Not implemented');
+function isLeapYear(date) {
+  return new Date(date.setDate(date.getDate() + 28)).getDate() === 29;
 }
 
 
@@ -73,8 +73,34 @@ function isLeapYear(/* date */) {
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,10,0,0,250)     => "00:00:00.250"
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,15,20,10,453)   => "05:20:10.453"
  */
-function timeSpanToString(/* startDate, endDate */) {
-  throw new Error('Not implemented');
+function timeSpanToString(startDate, endDate) {
+  let timespan = '';
+  const hours = Math.abs(startDate.getHours() - endDate.getHours());
+  const minutes = Math.abs(startDate.getMinutes() - endDate.getMinutes());
+  const seconds = Math.abs(startDate.getSeconds() - endDate.getSeconds());
+  const milliseconds = Math.abs(startDate.getMilliseconds() - endDate.getMilliseconds());
+
+  if (hours < 10) {
+    timespan += `0${hours}:`;
+  } else {
+    timespan += `${hours}:`;
+  }
+  if (minutes < 10) {
+    timespan += `0${minutes}:`;
+  } else {
+    timespan += `${minutes}:`;
+  }
+  if (seconds < 10) {
+    timespan += `0${seconds}.`;
+  } else {
+    timespan += `${seconds}.`;
+  }
+  if (milliseconds < 100) {
+    timespan += `${milliseconds}00`;
+  } else {
+    timespan += `${milliseconds}`;
+  }
+  return timespan;
 }
 
 
